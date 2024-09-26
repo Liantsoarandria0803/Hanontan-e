@@ -9,6 +9,12 @@ if (!isset($_SESSION['mail'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $commentId = (int)$_POST['id'];
 
+    // Suppression des réactions associées
+    $deleteReactions = $conn->prepare("DELETE FROM ReactionComment WHERE id_comment = :id");
+    $deleteReactions->bindParam(':id', $commentId);
+    $deleteReactions->execute();
+
+    // Suppression du commentaire
     $sql = $conn->prepare("DELETE FROM Comments WHERE id = :id");
     $sql->bindParam(':id', $commentId);
 

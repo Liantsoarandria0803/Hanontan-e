@@ -23,7 +23,7 @@ $user_name = $user->prenom;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hanotan-e</title>
+    <title>Hanontan-e</title>
     <link rel="stylesheet" href="./../front/app.css">
 </head>
 <body>
@@ -69,7 +69,7 @@ $user_name = $user->prenom;
 
 
 <script>
-   function fetchComments(publicationId) {
+  function fetchComments(publicationId) {
     fetch(`./../data/comments/read.php?publication_id=${publicationId}`)
         .then(response => response.json())
         .then(data => {
@@ -85,6 +85,10 @@ $user_name = $user->prenom;
                         </div>
                         <button onclick="handleCommentReaction(${comment.id}, 'like')">J'aime</button>
                         <button onclick="handleCommentReaction(${comment.id}, 'dislike')">Je n'aime pas</button>
+                        ${comment.id_compte == <?php echo $user_id; ?> ? `
+                        <button onclick="deleteComment(${comment.id})">Supprimer</button>
+                        <button onclick="editComment(${comment.id}, '${encodeURIComponent(comment.contenu)}')">Modifier</button>
+                        ` : ''}
                     </div>
                 `;
                 commentsListDiv.innerHTML += commentHTML;
@@ -95,6 +99,7 @@ $user_name = $user->prenom;
             console.error('Erreur lors de la récupération des commentaires :', error);
         });
 }
+
 
 
     function fetchPublications() {

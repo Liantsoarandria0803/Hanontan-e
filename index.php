@@ -57,7 +57,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tsy ay</title>
+    <title>Hanontan-e</title>
     <link rel="stylesheet" href="./front/login.css">
     <script src="./front/log.js"></script>
 </head>
