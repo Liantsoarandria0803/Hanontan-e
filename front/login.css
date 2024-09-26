@@ -1,0 +1,105 @@
+/* Global Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Utilisation d'une police moderne */
+    background-color: #f6f8fa; /* Fond de page léger */
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 25em;
+    height: 25em;
+    margin: 100px auto; /* Centrage vertical */
+    padding: 20px;
+    background-color: #ffffff; /* Fond blanc pour le formulaire */
+    border: 1px solid #e1e1e1; /* Bordure légère */
+    border-radius: 6px; /* Coins arrondis */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Ombre pour profondeur */
+}
+
+h3.title {
+    text-align: center; /* Centre le titre */
+    margin-bottom: 20px; /* Espacement en bas */
+    color: #1b915a; /* Couleur du titre */
+}
+
+.form-group {
+    margin-bottom: 15px; /* Espacement entre les groupes de formulaire */
+}
+
+label {
+    display: block; /* Étiquette en bloc */
+    margin-bottom: 5px; /* Espacement en bas */
+    font-weight: bold; /* Étiquette en gras */
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 97%; /* Largeur à 100% */
+    padding: 10px; /* Espacement intérieur */
+    border: 1px solid #ccc; /* Bordure gris clair */
+    border-radius: 4px; /* Coins arrondis */
+    transition: border-color 0.3s; /* Transition pour le changement de bordure */
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #1b915a; /* Changement de couleur au focus */
+}
+
+.password-wrapper {
+    position: relative; /* Pour le positionnement de l'icône de l'œil */
+}
+
+#eye {
+    position: absolute; /* Positionnement absolu */
+    right: 10px; /* Position à droite */
+    top: 50%; /* Centrage vertical */
+    transform: translateY(-50%); /* Ajustement pour centrage */
+    cursor: pointer; /* Curseur en main */
+    width: 23px;
+}
+
+.btn-login {
+    width: 100%; /* Largeur à 100% */
+    background-color: #1b915a; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    border: none; /* Pas de bordure */
+    padding: 10px; /* Espacement intérieur */
+    border-radius: 4px; /* Coins arrondis */
+    font-size: 16px; /* Taille de la police */
+    cursor: pointer; /* Curseur en main */
+    transition: background-color 0.3s; /* Transition pour le changement de couleur */
+}
+
+.btn-login:hover {
+    background-color: #178e51; /* Couleur au survol */
+}
+
+.signup {
+    text-align: center; /* Centre le texte */
+    margin-top: 20px; /* Espacement en haut */
+}
+
+.signup button {
+    background-color: transparent; /* Fond transparent */
+    border: none; /* Pas de bordure */
+    color: #007bff; /* Couleur du texte */
+    cursor: pointer; /* Curseur en main */
+}
+
+.forgot-password {
+    text-align: center; /* Centre le texte */
+    margin-top: 10px; /* Espacement en haut */
+}
+
+.forgot-password a {
+    color: #007bff; /* Couleur du lien */
+    text-decoration: none; /* Pas de soulignement */
+    transition: text-decoration 0.3s; /* Transition pour le soulignement */
+}
+
+.forgot-password a:hover {
+    text-decoration: underline; /* Soulignement au survol */
+}

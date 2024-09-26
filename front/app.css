@@ -1,0 +1,158 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6; /* Améliore la lisibilité */
+}
+
+.container {
+    width: 80%;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2, h3, h4 {
+    margin: 0 0 10px;
+}
+
+h2 {
+    color: #1b915a;
+}
+
+.bienvenue {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #f48024;
+    padding: 10px;
+    color: white;
+    display: flex; /* Utilisation de flexbox */
+    justify-content: space-between; /* Espacement entre les éléments */
+    align-items: center; /* Alignement vertical des éléments */
+}
+
+.navbar-container {
+    display: flex; /* Conserver l'affichage en ligne pour le conteneur */
+    align-items: center; /* Alignement vertical pour les éléments enfants */
+    width: 100%; /* Assurer que le conteneur prend toute la largeur */
+}
+
+.logo img {
+    border-radius: 70px;
+    width: 54px;
+}
+
+.navbar-title {
+    font-size: 1.5em;
+    margin: 0; /* Suppression de la marge pour éviter le décalage */
+    flex-grow: 1; /* Permet au titre de s'étendre */
+    align-items: center; /* Alignement vertical des liens */
+}
+
+.navbar-links {
+    display: flex; /* Conserver les liens en ligne */
+    align-items: center; /* Alignement vertical des liens */
+}
+
+.navbar-links img {
+    border-radius: 70px;
+    width: 54px;
+}
+
+.navbar-user {
+    margin-right: 20px;
+}
+
+
+/* Form Styles */
+.form-group {
+    margin: 20px 0;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #1b915a;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Ajoute une transition */
+}
+
+button:hover {
+    background-color: #16844e; /* Changement de couleur au survol */
+}
+
+/* Publication Styles */
+.publication {
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.actions {
+    margin: 10px 0;
+}
+
+.comment {
+    padding: 10px;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    margin: 10px 0;
+    background-color: #f1f1f1;
+}
+
+.reaction-users {
+    font-size: 0.9em;
+    color: #666;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 10px; /* Réduit le padding sur mobile */
+    }
+
+    .navbar-title {
+        font-size: 1.2em;
+    }
+
+    .navbar {
+        flex-direction: column; /* Change l'orientation de la navbar */
+        align-items: flex-start; /* Aligne les éléments à gauche */
+    }
+
+    .navbar-links {
+        margin-top: 10px; /* Espace au-dessus des liens */
+    }
+
+    button {
+        width: 100%; /* Les boutons prennent toute la largeur */
+    }
+
+    .publication, .comment {
+        padding: 10px; /* Réduit le padding dans les publications et commentaires */
+    }
+}
