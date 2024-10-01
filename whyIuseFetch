@@ -1,0 +1,4 @@
+AJAX, leveraging XMLHttpRequest, is a traditional method for asynchronous data fetching in web applications, offering compatibility with older browsers but featuring more complex syntax. On the other hand, the Fetch API, introduced with ES6, provides a streamlined promise-based approach with built-in JSON support, enhancing readability and ease of use in modern browsers.
+
+
+source : https://www.geeksforgeeks.org/difference-between-ajax-and-fetch-api/

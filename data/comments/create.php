@@ -19,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($sql->execute()) 
         {
             echo json_encode(["message" => "Comment created successfully"]);
-            header("Location: ./../../app/application.php");
         } 
         else 
         {

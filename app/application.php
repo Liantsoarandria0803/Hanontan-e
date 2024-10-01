@@ -34,11 +34,13 @@ $user_name = $user->prenom;
             <img src="./../img/Hanontan-e.png" alt="logo">
         </div>
         <h1 class="navbar-title">HANONTAN-e</h1>
+      
         
         <div class="navbar-links">
             <img src="./../img/user.png" alt="user">
             <span class="navbar-user"><strong><?php echo htmlspecialchars($user_name); ?></strong></span>
         </div>
+        
         <div id="deconnexion">
             <a href="./../php/deconnexion.php">
                 <button>Se déconnecter</button>
@@ -49,7 +51,7 @@ $user_name = $user->prenom;
 </nav>
 
 <div class="container">
-    <h2 class="bienvenue">BIENVENUE</h2>
+    <h2 class="bienvenue">TONGASOA</h2>
 
     <!-- Create Publication Form -->
     <div class="form-group">
@@ -83,11 +85,12 @@ $user_name = $user->prenom;
                         <div id="comment-reactions-${comment.id}">
                             <!-- Les réactions seront chargées ici -->
                         </div>
-                        <button onclick="handleCommentReaction(${comment.id}, 'like')">J'aime</button>
-                        <button onclick="handleCommentReaction(${comment.id}, 'dislike')">Je n'aime pas</button>
+                        <button onclick="handleCommentReaction(${comment.id}, 'like',${publicationId})">J'aime</button>
+                        <button onclick="handleCommentReaction(${comment.id}, 'dislike',${publicationId})">Je n'aime pas</button>
                         ${comment.id_compte == <?php echo $user_id; ?> ? `
-                        <button onclick="deleteComment(${comment.id})">Supprimer</button>
-                        <button onclick="editComment(${comment.id}, '${encodeURIComponent(comment.contenu)}')">Modifier</button>
+                       <button onclick="deleteComment(${comment.id}, ${publicationId})">Supprimer</button>
+                        <button onclick="editComment(${comment.id}, '${encodeURIComponent(comment.contenu)}', ${publicationId})">Modifier</button>
+
                         ` : ''}
                     </div>
                 `;
@@ -102,7 +105,7 @@ $user_name = $user->prenom;
 
 
 
-    function fetchPublications() {
+function fetchPublications() {
     fetch('./../data/read.php')
         .then(response => response.json())
         .then(data => {
@@ -133,7 +136,7 @@ $user_name = $user->prenom;
                             <div id="comments-list-${publication.id}">
                                 <!-- Les commentaires seront chargés ici -->
                             </div>
-                            <form id="addCommentForm-${publication.id}" action="./../data/comments/create.php" method="post">
+                            <form id="addCommentForm-${publication.id}" onsubmit="addComment(${publication.id}); return false;">
                                 <input type="hidden" value="${publication.id}" name="publication_id">
                                 <input type="hidden" value="<?php echo $user_id; ?>" name="user_id">
                                 <textarea id="comment-input-${publication.id}" name="content" rows="2" required></textarea>
@@ -148,6 +151,7 @@ $user_name = $user->prenom;
             });
         });
 }
+
 function toggleReactions(publicationId) {
     const reactionUsersDiv = document.getElementById(`reactions-${publicationId}`);
     if (reactionUsersDiv.style.display === 'none') {
@@ -223,44 +227,87 @@ function toggleReactions(publicationId) {
         }
     }
 
-    // Suppression d'un commentaire
-    function deleteComment(id) {
-        if (confirm("Voulez-vous vraiment supprimer ce commentaire ?")) {
-            fetch('./../data/comments/delete.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: `id=${id}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                fetchComments(id); // Recharger les commentaires
-                fetchPublications(); // Recharger les publications
-            });
-        }
+ // Ajout d'un commentaire pour une publication spécifique
+function addComment(publicationId) {
+    const commentInput = document.getElementById(`comment-input-${publicationId}`).value; // Correction de la récupération du commentaire
+
+    if (commentInput.trim() === '') {
+        alert('Le contenu du commentaire ne peut pas être vide');
+        return;
     }
 
-    // Modification d'un commentaire
-    function editComment(id, content) {
-        const newContent = prompt("Modifier le contenu", decodeURIComponent(content));
+    const userId = <?php echo $user_id; ?>; // Récupération de l'ID utilisateur
 
-        if (newContent !== null) {
-            fetch('./../data/comments/update.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: `id=${id}&content=${encodeURIComponent(newContent)}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                fetchComments(id); // Recharger les commentaires
-            });
-        }
+    // Envoi du commentaire via fetch
+    fetch('./../data/comments/create.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `publication_id=${publicationId}&user_id=${userId}&content=${encodeURIComponent(commentInput)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        // Mettre à jour les commentaires après l'ajout
+        fetchComments(publicationId);
+
+        // Réinitialiser la zone de texte du commentaire
+        document.getElementById(`comment-input-${publicationId}`).value = '';
+    })
+    .catch(error => {
+        console.error('Erreur lors de l\'ajout du commentaire :', error);
+    });
+}
+
+// Suppression d'un commentaire
+function deleteComment(id, publicationId) { // Ajout de publicationId en paramètre
+    if (confirm("Voulez-vous vraiment supprimer ce commentaire ?")) {
+        fetch('./../data/comments/delete.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `id=${id}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            // Recharger uniquement les commentaires de la publication concernée
+            fetchComments(publicationId);
+        })
+        .catch(error => {
+            console.error('Erreur lors de la suppression du commentaire :', error);
+        });
     }
+}
+
+
+
+  // Modification d'un commentaire
+function editComment(id, content, publicationId) { // Ajout de publicationId en paramètre
+    const newContent = prompt("Modifier le contenu", decodeURIComponent(content));
+
+    if (newContent !== null) {
+        fetch('./../data/comments/update.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `id=${id}&content=${encodeURIComponent(newContent)}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            // Recharger uniquement les commentaires de la publication concernée
+            fetchComments(publicationId);
+        })
+        .catch(error => {
+            console.error('Erreur lors de la modification du commentaire :', error);
+        });
+    }
+}
+
 
     // Gestion des réactions pour les publications
     function handleReaction(id, type) {
@@ -299,9 +346,8 @@ function toggleReactions(publicationId) {
         });
 }
 
-
-    // Gestion des réactions pour les commentaires
-    function handleCommentReaction(commentId, type) {
+// ajout reaction commentaires
+function handleCommentReaction(commentId, type, publicationId) {
     const formData = new FormData();
     formData.append('comment_id', commentId);
     formData.append('type', type);
@@ -313,16 +359,14 @@ function toggleReactions(publicationId) {
     })
     .then(response => response.json())
     .then(data => {
-        if (data.success) {
-            fetchCommentReactions(commentId); // Mettre à jour les réactions du commentaire après ajout
-        } else {
-            console.error('Erreur lors de l\'ajout de la réaction :', data.message);
-        }
+            fetchComments(publicationId);  // Recharger les commentaires pour cette publication
+            fetchCommentReactions(commentId);
     })
     .catch(error => {
         console.error('Erreur lors de l\'ajout de la réaction :', error);
     });
 }
+
 
     function fetchCommentReactions(commentId) {
     fetch(`./../data/reactionComm/read.php?comment_id=${commentId}`)
